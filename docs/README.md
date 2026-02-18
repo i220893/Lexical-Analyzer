@@ -1,5 +1,8 @@
 # Lexical Analyzer for Custom Programming Language
 
+## Github Link
+https://github.com/i220893/Lexical-Analyzer
+
 ## Project Overview
 This project implements a Lexical Analyzer (Scanner) for a custom programming language as part of a Compiler Design assignment. The scanner is implemented in two ways:
 1. **Manual Implementation**: Using Regular Expressions, NFA, and DFA
