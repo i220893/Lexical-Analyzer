@@ -1,0 +1,24 @@
+# Compiled class files
+bin/
+*.class
+
+# Temporary files & Drafts
+*.bak
+*~
+*.log
+*.tmp
+docs/Comparison_Draft.txt
+docs/*_Draft.txt
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# System files
+Desktop.ini
+Thumbs.db
+
+# User requested exclusions
+src/*Test.java
+src/Yylex.java

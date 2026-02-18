@@ -1,0 +1,34 @@
+## Test 1: All Valid Tokens
+## This file contains examples of all valid token types
+
+## Identifiers
+Count = 10;
+Variable_name = 20;
+X = 30;
+Total_sum_2024 = 40;
+
+## Integer Literals
+Positive = +100;
+Negative = -567;
+Zero = 0;
+Simple = 42;
+
+## Floating-Point Literals
+Pi = 3.14;
+Rate = +2.5;
+Small = -0.123456;
+Scientific1 = 1.5e10;
+Scientific2 = 2.0E-3;
+
+## Boolean Literals
+Is_valid = true;
+Is_active = false;
+
+## Punctuators
+Array = [1, 2, 3];
+Dict = {A: 1, B: 2};
+Function_call = (X, Y);
+
+## Comments
+## This is a single-line comment
+Value = 99; ## Inline comment

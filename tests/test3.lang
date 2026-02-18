@@ -1,0 +1,33 @@
+## Test 3: String and Character Handling
+## Note: Based on the specification, strings are not defined
+## This file tests edge cases with identifiers and literals
+
+## Identifiers with underscores
+First_name = 1;
+Last_name = 2;
+Full_name_with_numbers123 = 3;
+
+## Single character identifiers
+A = 10;
+B = 20;
+C = 30;
+Z = 40;
+
+## Numbers at boundaries
+Max_int = +2147483647;
+Min_int = -2147483648;
+
+## Floating point precision (exactly 6 decimals)
+Precise1 = 1.123456;
+Precise2 = 9.999999;
+Precise3 = 0.000001;
+
+## Scientific notation variations
+Sci1 = 1.0e0;
+Sci2 = 1.0E0;
+Sci3 = 1.0e+0;
+Sci4 = 1.0e-0;
+
+## Booleans
+True_value = true;
+False_value = false;

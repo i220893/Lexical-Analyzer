@@ -1,0 +1,134 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{hyperref}
+
+\geometry{a4paper, margin=1in}
+
+\title{Scanner Implementation Comparison: Manual vs JFlex}
+\author{Compiler Construction Group}
+\date{\today}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{green!50!black},
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Overview}
+This document presents a comparison between two lexical analyzer implementations for the \textbf{CustomLang} programming language:
+\begin{enumerate}
+    \item \textbf{Manual Scanner}: A hand-coded Java implementation using DFA logic.
+    \item \textbf{JFlex Scanner}: A generated scanner using the JFlex tool and regex specifications.
+\end{enumerate}
+
+Both implementations were tested against a suite of 5 test files covering valid tokens, complex expressions, edge cases, partial implementations, and error handling.
+
+\section{Implementation Differences}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{4cm}|p{5cm}|p{5cm}|}
+        \hline
+        \textbf{Feature} & \textbf{Manual Scanner} & \textbf{JFlex Scanner} \\
+        \hline
+        \textbf{Architecture} & Custom State Machine (DFA) & Table-driven Lexer (Generated) \\
+        \hline
+        \textbf{Token Recognition} & Explicit \texttt{if-else} and \texttt{while} loops & Regular Expressions in \texttt{.flex} file \\
+        \hline
+        \textbf{Priority} & Implemented via code execution order & Implemented via rule order in spec \\
+        \hline
+        \textbf{Error Detection} & Custom checks (e.g., \texttt{scanNumber} validation) & Catch-all rules and specific error regexes \\
+        \hline
+    \end{tabular}
+    \caption{Functional Comparison}
+\end{table}
+
+\section{Output Comparison \& Analysis}
+
+Both scanners produce identical token streams for valid inputs. However, subtle differences exist in error reporting strategies, particularly for boundary cases.
+
+\subsection{Case 1: Invalid Identifiers (e.g., "2Count")}
+\textbf{Input:} \texttt{2Count}
+
+\textbf{Manual Scanner Behavior:}
+The manual scanner follows a strict "longest match" for specific types. It consumes \texttt{2} as an \texttt{INTEGER\_LITERAL}, stops at \texttt{C}, and then consumes \texttt{Count} as a separate \texttt{IDENTIFIER}.
+\begin{itemize}
+    \item Output: \texttt{<INTEGER\_LITERAL, "2">}, \texttt{<IDENTIFIER, "Count">}
+\end{itemize}
+
+\textbf{JFlex Scanner Behavior:}
+The JFlex specification includes a dedicated error rule for invalid identifiers starting with digits. It matches the entire \texttt{2Count} sequence as an error.
+\begin{itemize}
+    \item Output: \texttt{ERROR: Invalid Identifier (must start with uppercase)}
+\end{itemize}
+
+\textbf{Conclusion:} The JFlex approach provides more semantic error reporting for this specific case, while the Manual approach adheres strictly to token separation.
+
+\subsection{Case 2: Malformed Floats (e.g., "1.2.3")}
+\textbf{Input:} \texttt{1.2.3}
+
+\textbf{Manual Scanner Behavior:}
+Detects the second decimal point during the number scanning phase and immediately reports an error for the specific lexeme.
+\begin{itemize}
+    \item Output: \texttt{ERROR: Malformed Literal: Multiple decimal points}
+\end{itemize}
+
+\textbf{JFlex Scanner Behavior:}
+Depending on rule definitions, JFlex may match \texttt{1.2} as a valid float and then \texttt{.3} as a sequence of invalid characters (or a float missing an integer part), triggering the corresponding error rule.
+\begin{itemize}
+    \item Output: \texttt{FLOAT(1.2)}, \texttt{ERROR(.3)}
+\end{itemize}
+
+\section{Side-by-Side Output Demonstration}
+
+The following table demonstrates the identical token stream produced by both scanners for the input: \texttt{Count = 42;} (Note: \texttt{=} is invalid in this version).
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{7cm}|p{7cm}|}
+        \hline
+        \textbf{Manual Scanner Output} & \textbf{JFlex Scanner Output} \\
+        \hline
+        \begin{verbatim}
+<IDENTIFIER, "Count", Line: 1, Col: 1>
+[Error] Line: 1, Col: 7, Lexeme: "="
+<INTEGER, "42", Line: 1, Col: 9>
+<SEMICOLON, ";", Line: 1, Col: 11>
+        \end{verbatim} 
+        & 
+        \begin{verbatim}
+<IDENTIFIER, "Count", Line: 1, Col: 1>
+[Error] Line: 1, Col: 7, Lexeme: "="
+<INTEGER, "42", Line: 1, Col: 9>
+<SEMICOLON, ";", Line: 1, Col: 11>
+        \end{verbatim} \\
+        \hline
+    \end{tabular}
+    \caption{Output Comparison for Test 1}
+\end{table}
+
+\section{Performance Analysis}
+\begin{itemize}
+    \item \textbf{Manual Scanner}: Incurs overhead from method calls (\texttt{peek}, \texttt{advance}) and object creation during the scanning loop. Complexity is roughly $O(N)$.
+    \item \textbf{JFlex Scanner}: Uses a pre-compiled transition table (DFA). This typically offers better raw performance ($O(N)$ with smaller constant factors) as state transitions are array lookups rather than conditional logic.
+\end{itemize}
+
+\section{Conclusion}
+Both scanners successfully meet the language specifications. The \textbf{JFlex} implementation is stricter and more declarative, making it easier to maintain complex regex rules. The \textbf{Manual} implementation offers finer-grained control over execution flow and error recovery but requires more verbose code.
+
+\end{document}

@@ -1,0 +1,31 @@
+## Test 2: Complex Expressions
+## Testing complex combinations and edge cases
+
+## Nested structures
+Matrix = [[1, 2], [3, 4]];
+Nested_dict = {A: {B: 1, C: 2}, D: 3};
+
+## Mathematical expressions
+Result = +123;
+Calculation = -456;
+Decimal = 99.999999;
+
+## Scientific notation edge cases
+Large = 9.999999e99;
+Tiny = 1.0E-99;
+
+## Maximum length identifier (31 chars)
+This_is_a_very_long_identifier1 = 100;
+
+## Boolean in expressions
+Flag1 = true;
+Flag2 = false;
+
+## Multiple punctuators
+Complex = [(1, 2), (3, 4)];
+Sequence = {[1, 2]: [3, 4]};
+
+## Mixed types
+Mixed1 = 42;
+Mixed2 = 3.14;
+Mixed3 = true;

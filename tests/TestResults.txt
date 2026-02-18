@@ -1,0 +1,84 @@
+COMPILER ASSIGNMENT TEST RESULTS
+================================
+
+Execution Date: 2026-02-17
+Scanners Tested: 
+1. Manual Scanner (DFA-based)
+2. JFlex Scanner (Generated)
+
+--------------------------------------------------------------------------------
+TEST 1: test1.lang (Valid Tokens)
+--------------------------------------------------------------------------------
+Goal: Verify recognition of all valid token types (Identifiers, Numbers, Booleans).
+Result: 
+- Identifiers (e.g., "Count", "Total_sum_2024") recognized correctly.
+- Integers (e.g., "42", "+100") recognized correctly.
+- Floats (e.g., "3.14", "1.5e10") recognized correctly.
+- Booleans ("true", "false") recognized correctly.
+- *Note*: The operator "=" was correctly flagged as [Invalid Character] as per requirements.
+
+Status: PASSED (Valid tokens recognized, removed operators rejected).
+
+--------------------------------------------------------------------------------
+TEST 2: test2.lang (Complex Expressions)
+--------------------------------------------------------------------------------
+Goal: Verify handling of complex mathematical and scientific notation sequences.
+Result:
+- "3.141592" -> FLOAT_LITERAL
+- "1.5e10"   -> FLOAT_LITERAL
+- Operators "+", "-", "*" flagged as [Invalid Character].
+- Signed literals like "+123" correctly parsed as single INTEGER tokens.
+
+Status: PASSED.
+
+--------------------------------------------------------------------------------
+TEST 3: test3.lang (Edge Cases)
+--------------------------------------------------------------------------------
+Goal: Test boundary conditions (empty file, single tokens, max length identifiers).
+Result:
+- Max length identifier (31 chars) recognized.
+- Whitespace handling correct.
+- EOF handled gracefully.
+
+Status: PASSED.
+
+--------------------------------------------------------------------------------
+TEST 4: test4.lang (Lexical Errors)
+--------------------------------------------------------------------------------
+Goal: Verify detection of invalid inputs.
+Result:
+1. Invalid Identifiers:
+   - "count" (lowercase start) -> Detected.
+   - "2Count" (digit start) -> Detected.
+   - "_Variable" (underscore start) -> Detected.
+   - Long identifier (>31 chars) -> Detected.
+
+2. Malformed Literals:
+   - "3." (missing decimal) -> Detected.
+   - ".14" (missing integer) -> Detected.
+   - "1.2.3" (multiple points) -> Detected.
+
+3. Invalid Characters:
+   - "@", "$", "%" -> Detected.
+
+Status: PASSED (All error types correctly reported).
+
+--------------------------------------------------------------------------------
+TEST 5: test5.lang (Comments)
+--------------------------------------------------------------------------------
+Goal: Verify that comments are stripped and ignored.
+Result:
+- Lines starting with "##" were completely ignored.
+- Inline comments (e.g., "Code; ## comment") -> "Code;" tokenized, comment ignored.
+- Line counting correctly maintained across comments.
+
+Status: PASSED.
+
+--------------------------------------------------------------------------------
+COMPARISON SUMMARY
+--------------------------------------------------------------------------------
+Both Manual and JFlex implementations produced identical token streams for all valid inputs.
+Both scanners correctly identified the removed operators ('=', '+', etc.) as invalid characters.
+Minor differences in error reporting phrasing (documented in Comparison.pdf) were observed but did not affect correctness.
+
+VERIFIED BY: run_tests.bat

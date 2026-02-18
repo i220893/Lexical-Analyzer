@@ -1,0 +1,41 @@
+## Test 4: Lexical Errors
+## This file intentionally contains various lexical errors
+
+## Invalid identifiers - starting with lowercase
+count = 10;
+variable = 20;
+
+## Invalid identifiers - starting with underscore
+_Variable = 30;
+_invalid = 40;
+
+## Invalid identifiers - starting with digit
+2Count = 50;
+123abc = 60;
+
+## Invalid identifiers - exceeding 31 characters
+This_identifier_is_way_too_long_and_exceeds_the_maximum = 70;
+
+## Invalid characters
+Value@ = 100;
+Price$ = 200;
+Percent% = 300;
+
+## Malformed floating-point literals
+Bad1 = 3.;
+Bad2 = .14;
+Bad3 = 1.2345678;
+
+## Too many decimal places (>6)
+Too_precise = 1.12345678;
+
+## Invalid boolean (case mismatch)
+Wrong1 = True;
+Wrong2 = FALSE;
+Wrong3 = TRUE;
+
+## Multiple decimal points
+Invalid_float = 1.2.3;
+
+## Missing semicolons and other issues
+No_semicolon = 42

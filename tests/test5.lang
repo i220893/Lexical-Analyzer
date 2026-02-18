@@ -1,0 +1,40 @@
+## Test 5: Comments Testing
+## This file extensively tests comment handling
+
+## Single-line comment at the beginning
+Value1 = 10;
+
+## Multiple consecutive comments
+## Comment line 1
+## Comment line 2
+## Comment line 3
+Value2 = 20;
+
+## Inline comments
+Value3 = 30; ## This is an inline comment
+Value4 = 40; ## Another inline comment
+
+## Comments with special characters
+## Special chars: @#$%^&*()
+## More special: []{}|\/
+Value5 = 50;
+
+## Empty comment lines
+##
+##
+Value6 = 60;
+
+## Comment before punctuators
+Array = [ ## Opening bracket
+    1, ## First element
+    2, ## Second element
+    3  ## Third element
+]; ## Closing bracket
+
+## Comments with numbers and identifiers
+## 123 456 789
+## Variable_name Count Total
+Value7 = 70;
+
+## Comment at the end of file
+Final_value = 100; ## Last comment

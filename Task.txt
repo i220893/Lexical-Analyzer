@@ -1,0 +1,172 @@
+Task:you will implement a Lexical Analyzer (Scanner) for a custom programming language. The lexical analyzer is the first phase of a compiler that reads source code and breaks it into meaningful units called tokens. You will implement the scanner in two ways: 
+1. Manual Implementation: Using Regular Expressions, NFA, and DFA 
+2. JFlex Implementation: Using JFlex tool to validate your manual implementation
+
+
+1: Regular Expression Specifications:
+Your scanner must recognize the following token types using exact regex patterns:
+
+1_Identifiers
+Regex: [A-Z][a-z0-9 ]{0,30} Rules: Must start with uppercase letter (A-Z), followed by lower case letters, digits, or underscores. Maximum 31 characters total. 
+Valid: Count, Variable_name, X, Total_sum_2024 
+Invalid: count, _Variable, 2Count, myVariable 
+
+2_Integer Literals 
+Regex: [+-]?[0-9]+ Valid: 42, +100, -567, 0 
+Invalid: 12.34, 1,000 
+
+3_Floating-Point Literals 
+Regex: [+-]?[0-9]+\.[0-9]{1,6}([eE][+-]?[0-9]+)? 
+Valid: 3.14, +2.5, -0.123456, 1.5e10, 2.0E-3 
+Invalid: 3., .14, 1.2345678 (¿6 decimals) 
+
+4_Boolean Literals 
+Regex: (true|false) (case-sensitive) 
+
+5_Punctuators 
+Regex: [(){}[\][,;:]] 
+Characters: ( ) { } [ ] , ; : 
+
+6_Comments 
+Single-line: ##[ ^\n]* 
+
+7_Whitespace 
+Regex: [ \t\r\n]+ (skip but track line numbers) 
+
+
+2: Pattern Matching Priority:
+CRITICAL: Check patterns in this order to avoid ambiguity:  
+1. Single-line comments 
+2. Boolean literals 
+3. Identifiers 
+4. Floating-point literals 
+5. Integer literals 
+6. Punctuators 
+7. Whitespace 
+
+
+3: Part 1: Manual Scanner Implementation (60 Marks)
+I am not responsible for this part.
+Task 1.1: Automata Design (15 Marks).
+Create Automata Design.pdf containing: 
+• Regular expressions for each token category (3 marks) 
+• NFA diagrams for the following token types (6 marks): 
+– Integer literal (mandatory) 
+– Floating-point literal (mandatory) 
+– Identifier (mandatory) 
+– Single-line comment (mandatory) 
+– Boolean literal (mandatory) 
+– punctuators (mandatory)
+- whitespace (mandatory) 
+• Minimized DFA conversion with transition state tables for the same 7 token types (6 marks) • Show NFA states, transitions, start/accepting states clearly 
+• No need to show intermediate conversion steps - just final NFA, minimized DFA, and transition tables 
+• You may draw by hand or use tools (JFLAP, draw.io, etc.) 
+
+(My part starts from here)
+Task 1.2: Scanner Implementation (45 Marks) 
+Implement ManualScanner.java that: 
+A. Token Recognition (25 marks) 
+• Recognizes all chosen token types
+• Uses DFA-based matching 
+• Applies longest match principle 
+• Handles operator precedence correctly 
+B. Pre-processing (5 marks) 
+• Removes unnecessary whitespace 
+• Preserves whitespace in string literals 
+• Tracks line and column numbers accurately 
+C. Token Output (5 marks) 
+Create Token.java class with: TokenType, lexeme, line number, column number Output format: <KEYWORD, "start", Line: 1, Col: 1> 
+D. Statistics (5 marks) 
+Display: Total tokens, count per token type, lines processed, comments removed E. Symbol Table (5 marks) 
+Create SymbolTable.java that stores: identifier name, type, first occurrence, frequency 
+
+
+4: Part 2: JFlex Implementation (30 Marks) 
+Task 2.1: JFlex Specification (20 Marks) 
+Create Scanner.flex with: 
+• User code section (imports, helper methods) 
+• Macro definitions for patterns (DIGIT, LETTER, etc.) 
+• Lexical rules matching all patterns from Section 3 
+• Same pattern matching priority as manual implementation 
+• Proper handling of comments, whitespace, and errors 
+Task 2.2: Token Class (5 Marks) 
+Implement Token.java compatible with both scanners 
+Task 2.3: Comparison (5 Marks) 
+Create Comparison.pdf showing: 
+• Side-by-side outputs on same test files 
+• Explanation of any differences 
+• Performance comparison
+
+
+5: Part 3: Error Handling (10 Marks) 
+Implement ErrorHandler.java that detects and reports: 
+Error Types (5 marks): 
+• Invalid characters (@, $, etc.) 
+• Malformed literals (multiple decimals, unterminated strings) 
+• Invalid identifiers (wrong starting character, exceeding length) 
+• Unclosed multi-line comments 
+Error Reporting (3 marks): 
+Format: Error type, line, column, lexeme, reason 
+Error Recovery (2 marks): 
+Skip to next valid token, continue scanning, report all errors 
+
+
+6: Deliverables:
+Folder Structure 
+22i1234-22i5678-A/ 
+src/ 
+ManualScanner.java, Token.java, TokenType.java 
+SymbolTable.java, ErrorHandler.java 
+Scanner.flex, Yylex.java 
+docs/ 
+Automata_Design.pdf 
+README.md 
+LanguageGrammar.txt 
+Comparison.pdf 
+tests/ 
+test1.lang (all valid tokens) 
+test2.lang (complex expressions) 
+test3.lang (string/char with escapes) 
+test4.lang (lexical errors) 
+test5.lang (comments) 
+TestResults.txt 
+README.md 
+
+README.md Must Include 
+• Language name and file extension 
+• Complete keyword list with meanings 
+• Identifier rules and examples 
+• Literal formats with examples 
+• Operator list with precedence 
+• Comment syntax 
+• At least 3 sample programs 
+• Compilation and execution instructions 
+• Team members with roll numbers 
+
+
+7: Marks Breakdown
+Part 1: Manual Implementation (60 Marks)
+RE, NFA, DFA Design (15 Marks)
+Token Recognition (all types) (25 Marks)
+Pre-processing & Whitespace (5 Marks)
+Token Output Format (5 Marks)
+Statistics Display (5 Marks)
+Symbol Table (5 Marks)
+
+Part 2: JFlex Implementation (30 Marks)
+JFlex Specification File (20 Marks)
+Token Class (5 Marks)
+Output Comparison (5 Marks)
+
+Part 3: Error Handling (10 Marks)
+Error Detection (5 Marks)
+Error Reporting (3 Marks)
+Error Recovery (2 Marks)
+
+Part 4:Deductions
+Inadequate README (-10 Marks)
+Poor code quality/comments (-5 Marks)
+
+Total (100 Marks)
+
+8: Note: this is a java task. I am only resonsible for task 1.2 and onwards. task 1.1 is the resposibility of my teammate.
