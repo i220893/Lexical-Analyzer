@@ -18,7 +18,3 @@ docs/*_Draft.txt
 # System files
 Desktop.ini
 Thumbs.db
-
-# User requested exclusions
-src/*Test.java
-src/Yylex.java
